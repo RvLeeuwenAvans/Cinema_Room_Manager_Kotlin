@@ -1,0 +1,54 @@
+<div class="step-text">
+<p>Like in many other languages, some unexpected situations may occur in Kotlin. Imagine, you've written your program and now you are trying to run it. Suddenly, the Kotlin compiler says that code isn't correct and marks errors in the code. However, no compiler is almighty, so the Kotlin one can't prevent all the possible errors. Therefore, an error can happen while a program is running, even though it's syntactically correct and has been compiled without any problem. Such situations are called <strong>Exceptions</strong> in Kotlin and we are going to explore this concept.</p>
+<h5 id="causing-an-exception">Causing An Exception</h5>
+<p style="text-align: start;">First of all, let's describe an exception. Obviously, it's an unexpected and non-standard event, which occurs in different situations and may be annoying for any programmer. Let's look at the example below:</p>
+<pre><code class="language-kotlin">fun readNextInt(): Int {
+    return readln().toInt()
+}
+
+fun runIncrementer() {
+    val increment = 1 + readNextInt()
+    println(increment)
+}
+
+fun main() {
+    runIncrementer()
+}</code></pre>
+<p style="text-align: start;">We've just created a function to read from the standard input. It's quite a simple example: we just read a line, convert it to a number and return the result. Any possible problems? Well, here they are: we can't be sure that a user won't type something like this:</p>
+<pre><code class="language-kotlin">&gt; Hi :)</code></pre>
+<p style="text-align: start;">Oops! If you run the program and enter this line, an exception will happen and the program will crash and output something like this:</p>
+<pre><code class="language-no-highlight">Exception in thread "main" java.lang.NumberFormatException: For input string: "Hi :)"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+	at java.base/java.lang.Integer.parseInt(Integer.java:661)
+	at java.base/java.lang.Integer.parseInt(Integer.java:777)
+	at org.example.MainKt.readNextInt(Main.kt:4)
+	at org.example.MainKt.runIncrementer(Main.kt:8)
+	at org.example.MainKt.main(Main.kt:13)
+	at org.example.MainKt.main(Main.kt)</code></pre>
+<p>It's mean that you get a <code class="language-kotlin">NumberFormatException</code> in the function <code class="language-kotlin">readNextInt()</code> at line 4.</p>
+<h5 id="what-is-an-exception">What Is An Exception</h5>
+<p>So, as you can see, some problems in your code won't stop the program from running, but the program will crash when it tries to execute a line with an error called an <strong>exception</strong>. Exceptions are errors found during the program's execution (runtime), while syntax errors are found when the program is being compiled. An exception interrupts the normal execution of the program.</p>
+<p>Exceptions can happen for different reasons, such as performing an invalid arithmetic operation or receiving incorrect input as in example above. These errors indicate that something is behaving unexpectedly, and you need to validate your input data or change how you process it. Let's look at the another example and see how you can avoid exceptions.</p>
+<h5 id="division-by-zero">Division By Zero</h5>
+<p>For example, you have a simple task. You bought some milk, you know how much money you've spent and how many packs you've got. You want to know the price of each pack. Well, it's quite easy:</p>
+<pre><code class="language-kotlin">fun itemPrice(total: Int, amount: Int): Int {
+    return total / amount
+}</code></pre>
+<p>But what happens if you call this function with <code class="language-kotlin">amount</code> equal to <code class="language-kotlin">0</code>? As you know, you can't divide by zero. You will get something like this:</p>
+<pre><code class="language-kotlin">Exception in thread "main" java.lang.ArithmeticException: / by zero
+	at org.example.MainKt.itemPrice(Main.kt:4)
+	at org.example.MainKt.main(Main.kt:8)
+	at org.example.MainKt.main(Main.kt)	at org.example.MainKt.itemPrice(Main.kt:4)</code></pre>
+<p>It's mean that you get an <code class="language-kotlin">ArithmeticException</code> in the function <code class="language-kotlin">itemPrice()</code> at line 4.</p>
+<p>Well, we met another exception. In this case, you can prevent this error quite simply:</p>
+<pre><code class="language-kotlin">fun itemPrice(total: Int, amount: Int): Int {
+    if (amount == 0) {
+        println("Division by zero")
+        return 0
+    }
+    return total / amount
+}</code></pre>
+<p>Often you can prevent exceptions with additional validation, so don't forget to think about corner cases.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>Let's recap. Exceptions don't stop a program from being compiled and run, but the program will crash when it tries to execute a line that causes an exception. Control statements can help you avoid some exceptions in your programs. Later, you'll learn a general method to <a class="theory-lookup not-relevant" href="/learn/step/7243" rel="noopener noreferrer nofollow" target="_blank" title="In Kotlin, handle exception refers to the process of dealing with and responding to exceptions during the execution of a program. | This is done using the `try` and `catch` keywords. The `try` block contains the code that may throw an exception, while the `catch` block contains the action to be taken when an exception occurs. When an exception occurs in the `try` block, the runtime system determines the first suitable `catch` block to handle it, starting from the top. It is best to handle exceptions in a method that has sufficient information to make the correct decision based on the exception.">handle exceptions</a> and even throw them yourself. Good luck with your tasks!</p>
+</div>

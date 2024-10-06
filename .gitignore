@@ -1,0 +1,26 @@
+# course config files
+*.yaml
+
+# gradle
+.gradle/
+build
+
+
+# idea config
+.idea
+
+# old stages
+/Cinema Room Manager (Kotlin)/*
+!/Cinema Room Manager (Kotlin)/task/
+/Cinema Room Manager (Kotlin)/task/*
+!/Cinema Room Manager (Kotlin)/task/src
+
+# Project exclude paths
+/Topics/Errors in programs/Sum of individual digits in a certain range/out/
+/Topics/Errors in programs/Sum of individual digits in a certain range/out/production/classes/
+/Topics/Floating-point types/Difference between two doubles/out/
+/Topics/Floating-point types/Difference between two doubles/out/production/classes/
+/Topics/Floating-point types/Uses the Double in the calculations/out/
+/Topics/Floating-point types/Uses the Double in the calculations/out/production/classes/
+/Topics/Taming exceptions/Handle string exception/out/
+/Topics/Taming exceptions/Handle string exception/out/production/classes/
