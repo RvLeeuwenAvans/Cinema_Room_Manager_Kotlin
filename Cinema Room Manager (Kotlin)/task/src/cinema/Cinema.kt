@@ -11,7 +11,7 @@ class Cinema(
     private val ticketPrice: Int,
     private val secondaryPrice: Int = ticketPrice,
 ) {
-    private var seatingMatrix: List<List<MutableMap<String, Any>>>
+    private var seatingMatrix: List<List<Seat>>
 
     init {
         try {
@@ -82,9 +82,9 @@ class Cinema(
             println("Enter a seat number in that row:")
             val seat = readln().toInt()
 
-            if (seatingMatrix[row - 1][seat - 1]["booked"] == false) {
-                println("Ticket price: \$${seatingMatrix[row - 1][seat - 1]["price"]}")
-                seatingMatrix[row - 1][seat - 1]["booked"] = true
+            if (!seatingMatrix[row - 1][seat - 1].booked) {
+                println("Ticket price: \$${seatingMatrix[row - 1][seat - 1].price}")
+                seatingMatrix[row - 1][seat - 1].booked = true
             } else {
                 println("That ticket has already been purchased!")
                 // retry
@@ -114,7 +114,7 @@ class Cinema(
             builder.append(" ${row + 1}")
             repeat(seatsInRow) { seat ->
                 builder.append(
-                    if (seatingMatrix[row][seat]["booked"] as Boolean)
+                    if (seatingMatrix[row][seat].booked)
                         " B"
                     else
                         " S"
@@ -125,11 +125,9 @@ class Cinema(
         println(builder.toString())
     }
 
-    private fun buildSeatingMatrix(seatsInRow: Int, amountOfRows: Int): List<List<MutableMap<String, Any>>> =
+    private fun buildSeatingMatrix(seatsInRow: Int, amountOfRows: Int): List<List<Seat>> =
         buildList {
             repeat(amountOfRows) { currentRow ->
-
-
                 val seatPrice = if ((amountOfRows * seatsInRow > 60)) {
                     if (currentRow + 1 in 1..amountOfRows / 2) ticketPrice
                     else secondaryPrice
@@ -137,12 +135,7 @@ class Cinema(
 
                 add(buildList {
                     repeat(seatsInRow) {
-                        add(
-                            mutableMapOf<String, Any>(
-                                "price" to seatPrice,
-                                "booked" to false
-                            )
-                        )
+                        add(Seat(seatPrice))
                     }
                 })
             }
@@ -152,7 +145,7 @@ class Cinema(
         var seatsBooked = 0
         seatingMatrix.forEach { rows ->
             rows.forEach { seat ->
-                if (seat["booked"] == true) seatsBooked++
+                if (seat.booked) seatsBooked++
             }
         }
         return seatsBooked
@@ -163,16 +156,15 @@ class Cinema(
 
         seatingMatrix.forEach { rows ->
             rows.forEach { seat ->
-                val currentSeatPrice = seat["price"].toString().toInt()
+                val currentSeatPrice = seat.price
 
                 if (calculateMaximum) {
                     seatPriceTotal += currentSeatPrice
                 } else {
-                    if (seat["booked"] == true) seatPriceTotal += currentSeatPrice
+                    if (seat.booked) seatPriceTotal += currentSeatPrice
                 }
             }
         }
-
         return seatPriceTotal
     }
 }
